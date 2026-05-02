@@ -11,15 +11,18 @@ std::string FullHouseChecker::checkHand(const std::vector<Card>& cards) {
         rankCount[card.getRank()]++;
     }
 
-    bool hasThreeOfAKind = false;
-    bool hasPair = false;
+    int threes = 0;
+    int twos = 0;
 
     for (const auto& pair : rankCount) {
-        if (pair.second >= 3) hasThreeOfAKind = true;
-        if (pair.second >= 2) hasPair = true;
+        if (pair.second >= 3) {
+            threes++;
+        } else if (pair.second >= 2) {
+            twos++;
+        }
     }
 
-    if (hasThreeOfAKind && hasPair) {
+    if ((threes >= 1 && twos >= 1) || (threes >= 2)) {
         return "Full House";
     }
 

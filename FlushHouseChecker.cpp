@@ -19,13 +19,17 @@ std::string FlushHouseChecker::checkHand(const std::vector<Card>& cards) {
     }
 
     // Check for full house (3 of a kind + 2 of a kind)
-    bool hasThreeOfAKind = false;
-    bool hasPair = false;
+    int threes = 0;
+    int twos = 0;
 
     for (const auto& pair : rankCount) {
-        if (pair.second >= 3) hasThreeOfAKind = true;
-        if (pair.second >= 2) hasPair = true;
+        if (pair.second >= 3) {
+            threes++;
+        } else if (pair.second >= 2) {
+            twos++;
+        }
     }
+    bool hasFullHouse = (threes >= 1 && twos >= 1) || (threes >= 2);
 
     // Check for flush (5 of same suit)
     bool hasFlush = false;
@@ -33,7 +37,7 @@ std::string FlushHouseChecker::checkHand(const std::vector<Card>& cards) {
         if (pair.second >= 5) hasFlush = true;
     }
 
-    if (hasThreeOfAKind && hasPair && hasFlush) {
+    if (hasFullHouse && hasFlush) {
         return "Flush House";
     }
 
